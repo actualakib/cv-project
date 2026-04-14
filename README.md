@@ -11,7 +11,7 @@
 
 **Build a polished, ATS-optimised CV in under 5 minutes — free, no sign-up needed.**
 
-[Report Bug](https://github.com/yourusername/autocv-builder/issues) · [Request Feature](https://github.com/yourusername/autocv-builder/issues) · [Live Demo](#)
+[Report Bug](https://github.com/yourusername/autocv-builder/issues) · [Request Feature](https://github.com/yourusername/autocv-builder/issues) · [Live Demo](http://www.project-cv.infinityfreeapp.com/)
 
 </div>
 
