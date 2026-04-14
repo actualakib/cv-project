@@ -1,514 +1,515 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Automated CV Builder</title>
-
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fafafa;
+            color: #060b31;
+            -webkit-font-smoothing: antialiased;
+        }
+        .hidden { display: none !important; }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .uber-card {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .uber-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            border-color: #d4d4d4;
+        }
+
+        .uber-btn {
+            background: #000000;
+            color: #ffffff;
+            padding: 16px 32px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            border: 1px solid #000000;
+        }
+        .uber-btn:hover {
+            background: #222222;
+            transform: scale(1.02);
+        }
+        .uber-btn:active {
+            transform: scale(0.98);
+        }
+        .uber-btn-outline {
+            background: transparent;
+            color: #000000;
+            border: 1px solid #e5e5e5;
+        }
+        .uber-btn-outline:hover {
+            background: #f5f5f5;
+            border-color: #000000;
+        }
+
+        .uber-input {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 12px 0;
+            font-size: 1rem;
+            background: transparent;
+            transition: border-color 0.3s ease;
+            color: #000;
+        }
+        .uber-input:focus {
+            outline: none;
+            border-bottom-color: #000000;
+        }
+        .uber-textarea {
+            width: 100%;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 1rem;
+            background: #ffffff;
+            transition: all 0.3s ease;
+            resize: vertical;
+        }
+        .uber-textarea:focus {
+            outline: none;
+            border-color: #000000;
+            box-shadow: 0 0 0 1px #000000;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #666666;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .premium-blur { filter: blur(6px); pointer-events: none; }
+        .input-error { border-bottom-color: #ef4444 !important; }
+        .input-error.uber-textarea { border-color: #ef4444 !important; box-shadow: 0 0 0 1px #ef4444 !important; }
+        .error-msg { color: #ef4444; font-size: 0.75rem; margin-top: 4px; display: none; font-weight: 500; }
+        .input-error + .error-msg { display: block; }
+        
+        #cv-preview-container { background: white; box-shadow: 0 20px 60px rgba(0,0,0,0.05); border: 1px solid #eaeaea; }
+
+        .image-upload-wrapper {
+            border: 1px dashed #cccccc;
+            border-radius: 12px;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+        .image-upload-wrapper:hover {
+            border-color: #000000;
+            background: #f0f0f0;
+        }
+    </style>
 </head>
+<body class="antialiased">
 
-<body class="text-slate-800 antialiased">
-
-
-    
-    <div id="view-home" class="min-h-screen flex flex-col items-center justify-center p-6 relative">
-
-        <a href="mailto:adnanakib201@gmail.com"
-            class="absolute top-6 right-8 flex items-center gap-2 text-slate-500 hover:text-blue-600 transition font-medium text-lg">
-            <i class="fa-solid fa-circle-info"></i> Help & Support
+    <div id="view-home" class="min-h-screen flex flex-col items-center justify-center p-6 relative view-section fade-in-up">
+        
+        <a href="mailto:adnanakib2017@gmail.com" class="absolute top-8 right-10 flex items-center gap-2 text-gray-500 hover:text-black transition-colors font-medium">
+            <i class="fa-solid fa-circle-info"></i> Support
         </a>
 
-        <div class="text-center max-w-2xl">
-            <h1 class="text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">
-                Craft Your Perfect CV <span class="text-blue-600">Instantly</span>
+        <div class="text-center max-w-3xl">
+            <h1 class="text-6xl md:text-7xl font-bold tracking-tight mb-6">
+                Craft your perfect CV.
             </h1>
-            <p class="text-lg text-slate-600 mb-10">
-                Join thousands of professionals securing their dream jobs with our automated builder.
+            <p class="text-xl text-gray-500 mb-12 font-light">
+                Professional, elegant, and instantly generated.
             </p>
 
-            <div class="flex flex-col sm:flex-row justify-center gap-8 mb-12">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
-                    <div class="bg-blue-100 p-3 rounded-full text-blue-600">
-                        <i class="fa-solid fa-users text-xl"></i>
+            <div class="flex flex-col sm:flex-row justify-center gap-6 mb-16">
+                <div class="uber-card p-8 flex items-center gap-5 min-w-[240px]">
+                    <div class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-users"></i>
                     </div>
                     <div class="text-left">
-                        <p class="text-sm text-slate-500 font-medium">Total Users</p>
-                        <p class="text-2xl font-bold text-slate-900">125,430</p>
+                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Total Users</p>
+                        <p class="text-3xl font-bold">125,430</p>
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
-                    <div class="bg-green-100 p-3 rounded-full text-green-600">
-                        <i class="fa-solid fa-chart-line text-xl"></i>
+                <div class="uber-card p-8 flex items-center gap-5 min-w-[240px]">
+                    <div class="bg-gray-100 text-black w-12 h-12 rounded-full flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-bolt"></i>
                     </div>
                     <div class="text-left">
-                        <p class="text-sm text-slate-500 font-medium">Live Now</p>
-                        <p class="text-2xl font-bold text-slate-900">342</p>
+                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Live Now</p>
+                        <p class="text-3xl font-bold">342</p>
                     </div>
                 </div>
             </div>
 
-            <button onclick="navigate('templates')"
-                class="bg-blue-600 hover:bg-blue-700 text-white text-xl font-semibold py-4 px-10 rounded-full shadow-lg transition-all flex items-center gap-2 mx-auto">
-                Start Creating <i class="fa-solid fa-play"></i>
+            <button onclick="navigate('templates')" class="uber-btn text-lg px-10 py-5">
+                Start Building <i class="fa-solid fa-arrow-right"></i>
             </button>
         </div>
     </div>
 
+    <div id="view-templates" class="min-h-screen p-8 hidden view-section">
+        <div class="max-w-6xl mx-auto pt-10">
+            <h2 class="text-4xl font-bold mb-3 tracking-tight">Select a Template</h2>
+            <p class="text-gray-500 mb-12 text-lg font-light">Designed for modern professionals.</p>
 
-    
-    <div id="view-templates" class="min-h-screen p-8 hidden">
-        <h2 class="text-3xl font-bold text-center mb-2 text-slate-800">Select a Template</h2>
-        <p class="text-center text-slate-500 mb-10">Choose a layout that fits your professional style.</p>
-
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-
-            
-            <div onclick="selectTemplate(1)"
-                class="relative bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden cursor-pointer hover:shadow-xl transition-all">
-                <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10">
-                    FREE
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div onclick="selectTemplate(1)" class="uber-card overflow-hidden cursor-pointer relative group">
+                    <div class="absolute top-4 right-4 bg-gray-100 text-black text-xs font-bold px-3 py-1 rounded-md z-10">FREE</div>
+                    <div class="h-80 p-8 bg-gray-50 border-b border-gray-100 group-hover:bg-gray-100 transition-colors">
+                        <div class="flex gap-4 mb-6">
+                            <div class="w-14 h-14 bg-gray-300 rounded-full"></div>
+                            <div class="flex-1 pt-2">
+                                <div class="w-2/3 h-3 bg-black rounded-sm mb-2"></div>
+                                <div class="w-1/3 h-2 bg-gray-400 rounded-sm"></div>
+                            </div>
+                        </div>
+                        <div class="w-full h-[1px] bg-gray-300 mb-4"></div>
+                        <div class="w-full h-2 bg-gray-300 mb-3 rounded-sm"></div>
+                        <div class="w-4/5 h-2 bg-gray-300 mb-3 rounded-sm"></div>
+                        <div class="w-5/6 h-2 bg-gray-300 rounded-sm"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg">Standard ATS</h3>
+                        <p class="text-gray-500 text-sm mt-1">Clean, minimal, easily parsed.</p>
+                    </div>
                 </div>
-                <div class="h-80 p-6 bg-slate-50 border-b">
-                    <div class="flex gap-4 mb-4">
-                        <div class="w-12 h-12 bg-slate-300 rounded-full"></div>
+
+                <div onclick="selectTemplate(2)" class="uber-card overflow-hidden cursor-pointer relative group">
+                    <div class="absolute top-4 right-4 bg-gray-100 text-black text-xs font-bold px-3 py-1 rounded-md z-10">FREE</div>
+                    <div class="h-80 flex bg-white border-b border-gray-100">
+                        <div class="w-1/3 bg-black p-6">
+                            <div class="w-12 h-12 bg-white/20 rounded-full mb-6"></div>
+                            <div class="w-full h-2 bg-white/30 rounded-sm mb-3"></div>
+                            <div class="w-4/5 h-2 bg-white/30 rounded-sm"></div>
+                        </div>
+                        <div class="w-2/3 p-6 bg-gray-50 group-hover:bg-gray-100 transition-colors">
+                            <div class="w-3/4 h-3 bg-black rounded-sm mb-6 mt-2"></div>
+                            <div class="w-full h-2 bg-gray-300 rounded-sm mb-3"></div>
+                            <div class="w-full h-2 bg-gray-300 rounded-sm mb-3"></div>
+                            <div class="w-2/3 h-2 bg-gray-300 rounded-sm"></div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg">Modern Split</h3>
+                        <p class="text-gray-500 text-sm mt-1">Bold contrast, two-column layout.</p>
+                    </div>
+                </div>
+
+                <div onclick="showPaymentModal()" class="uber-card overflow-hidden cursor-pointer relative">
+                    <div class="absolute top-4 right-4 bg-black text-white text-xs font-bold px-3 py-1 rounded-md z-20">PRO</div>
+                    <div class="h-80 p-8 bg-gray-50 premium-blur flex flex-col gap-4">
+                        <div class="w-full h-16 bg-gray-300 rounded-md"></div>
+                        <div class="w-full flex-1 bg-gray-300 rounded-md"></div>
+                    </div>
+                    <div class="absolute inset-0 flex items-center justify-center z-10">
+                        <div class="bg-white/95 px-6 py-3 rounded-full shadow-lg text-black font-bold text-sm tracking-wide border border-gray-200">
+                            Unlock Premium
+                        </div>
+                    </div>
+                    <div class="p-6 bg-gray-50">
+                        <h3 class="font-bold text-lg">Executive Class</h3>
+                        <p class="text-gray-500 text-sm mt-1">Sophisticated design for leaders.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 text-left">
+                <button onclick="navigate('home')" class="text-gray-500 hover:text-black transition-colors font-medium flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Home
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-form" class="min-h-screen p-4 md:p-8 hidden view-section">
+        <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden my-8">
+            <div class="p-8 md:p-12">
+                <div class="flex justify-between items-end mb-10 pb-6 border-b border-gray-100">
+                    <div>
+                        <h2 class="text-3xl font-bold tracking-tight">Your Details</h2>
+                        <p class="text-gray-500 mt-2 font-light">Complete the required fields below.</p>
+                    </div>
+                    <button onclick="navigate('templates')" class="text-sm font-medium text-gray-500 hover:text-black transition border border-gray-200 px-4 py-2 rounded-lg">
+                        Change Template
+                    </button>
+                </div>
+
+                <form id="cvForm" class="space-y-8">
+                    <div class="image-upload-wrapper p-8 text-center">
+                        <input type="file" id="inp-image" accept="image/*" class="hidden" onchange="previewImage(event)" />
+                        <label for="inp-image" class="cursor-pointer flex flex-col items-center">
+                            <img id="img-preview" src="" class="hidden h-28 w-28 object-cover rounded-full shadow-md mb-4 border-2 border-white" />
+                            <div id="img-placeholder" class="h-16 w-16 bg-white rounded-full flex items-center justify-center text-black mb-4 shadow-sm border border-gray-200">
+                                <i class="fa-solid fa-camera text-xl"></i>
+                            </div>
+                            <span class="text-black font-semibold text-sm">Upload Photo</span>
+                            <span class="text-gray-400 text-xs mt-1">Max 5MB</span>
+                        </label>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                         <div>
-                            <div class="w-24 h-4 bg-slate-800 rounded mb-2"></div>
-                            <div class="w-16 h-2 bg-slate-400 rounded"></div>
+                            <label>First Name *</label>
+                            <input type="text" id="inp-firstname" class="uber-input" required>
+                            <div class="error-msg">Required</div>
+                        </div>
+                        <div>
+                            <label>Last Name *</label>
+                            <input type="text" id="inp-lastname" class="uber-input" required>
+                            <div class="error-msg">Required</div>
+                        </div>
+                        <div>
+                            <label>Job Title *</label>
+                            <input type="text" id="inp-jobtitle" placeholder="e.g. Software Engineer" class="uber-input" required>
+                            <div class="error-msg">Required</div>
+                        </div>
+                        <div>
+                            <label>Phone *</label>
+                            <input type="tel" id="inp-phone" class="uber-input" required>
+                            <div class="error-msg">Required</div>
                         </div>
                     </div>
-                    <div class="w-full h-2 bg-slate-300 mb-2 rounded"></div>
-                    <div class="w-3/4 h-2 bg-slate-300 mb-6 rounded"></div>
-                </div>
-                <div class="p-4 text-center font-bold">Classic ATS Format</div>
-            </div>
 
-            
-            <div onclick="selectTemplate(2)"
-                class="relative bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden cursor-pointer hover:shadow-xl transition-all">
-                <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10">
-                    FREE
-                </div>
-                <div class="h-80 flex bg-slate-50 border-b">
-                    <div class="w-1/3 bg-blue-900 p-4">
-                        <div class="w-10 h-10 bg-white/30 rounded-full mx-auto mb-4"></div>
-                        <div class="w-full h-2 bg-white/20 rounded mb-2"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                        <div>
+                            <label>Email *</label>
+                            <input type="email" id="inp-email" placeholder="hello@domain.com" class="uber-input" required>
+                            <div class="error-msg">Required</div>
+                        </div>
+                        <div>
+                            <label>Social Handle <span class="font-normal lowercase text-xs">(optional)</span></label>
+                            <input type="text" id="inp-social" placeholder="LinkedIn URL" class="uber-input">
+                        </div>
                     </div>
-                    <div class="w-2/3 p-4">
-                        <div class="w-32 h-4 bg-slate-800 rounded mb-4"></div>
-                        <div class="w-full h-2 bg-slate-300 rounded mb-2"></div>
+
+                    <div>
+                        <label>Address * <span class="font-normal lowercase text-xs">(Max 150 words)</span></label>
+                        <textarea id="inp-address" rows="2" class="uber-textarea mt-2" oninput="checkWordLimit(this, 150)"></textarea>
+                        <div class="error-msg" id="err-address">Required</div>
                     </div>
-                </div>
-                <div class="p-4 text-center font-bold">Modern Canva Style</div>
-            </div>
 
-            
-            <div onclick="showPaymentModal()"
-                class="relative bg-white rounded-xl shadow-md border border-amber-200 overflow-hidden cursor-pointer hover:shadow-xl transition-all">
-                <div class="absolute top-3 right-3 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full z-20">
-                    PREMIUM
-                </div>
-                <div class="h-80 p-6 bg-amber-50 premium-blur flex flex-col gap-2">
-                    <div class="w-full h-16 bg-amber-200 rounded"></div>
-                    <div class="w-full h-32 bg-amber-200 rounded"></div>
-                </div>
-                <div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-                    <span class="bg-white/90 text-amber-700 font-bold px-4 py-2 rounded-lg shadow">Unlock Premium</span>
-                </div>
-                <div class="p-4 text-center font-bold text-amber-900">Executive Pro</div>
-            </div>
+                    <div>
+                        <label>Education & Certifications * <span class="font-normal lowercase text-xs">(Max 250 words)</span></label>
+                        <textarea id="inp-edu" rows="3" class="uber-textarea mt-2" oninput="checkWordLimit(this, 250)"></textarea>
+                        <div class="error-msg" id="err-edu">Required</div>
+                    </div>
 
-        </div>
-        <div class="text-center mt-8">
-            <button onclick="navigate('home')" class="text-blue-600 underline">Back</button>
+                    <div>
+                        <label>Experience * <span class="font-normal lowercase text-xs">(Max 250 words)</span></label>
+                        <textarea id="inp-exp" rows="3" class="uber-textarea mt-2" oninput="checkWordLimit(this, 250)"></textarea>
+                        <div class="error-msg" id="err-exp">Required</div>
+                    </div>
+
+                    <div>
+                        <label class="mb-3">Skills * <span class="font-normal lowercase text-xs">(Max 8)</span></label>
+                        <div id="skills-container" class="grid grid-cols-2 gap-4">
+                            <input type="text" class="inp-skill uber-input" placeholder="Skill 1" oninput="checkWordLimit(this, 25)">
+                        </div>
+                        <button type="button" onclick="addSkill()" class="mt-4 text-black text-sm font-semibold hover:underline">
+                            + Add Skill
+                        </button>
+                    </div>
+
+                    <div class="pt-8 border-t border-gray-100">
+                        <label>Extra Curricular <span class="font-normal lowercase text-xs">(Optional, Max 150 words)</span></label>
+                        <textarea id="inp-extra" rows="2" class="uber-textarea mt-2" oninput="checkWordLimit(this, 150)"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="mb-3">References <span class="font-normal lowercase text-xs">(Optional, Max 2)</span></label>
+                        <div id="refs-container" class="space-y-4">
+                            <textarea class="inp-ref uber-textarea" placeholder="Reference 1" rows="2" oninput="checkWordLimit(this, 200)"></textarea>
+                        </div>
+                        <button type="button" onclick="addRef()" class="mt-4 text-black text-sm font-semibold hover:underline">
+                            + Add Reference
+                        </button>
+                    </div>
+
+                    <div class="pt-6">
+                        <button type="button" onclick="submitForm()" class="uber-btn w-full text-lg py-5">
+                            Generate Document
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
-
-    
-    <div id="view-form" class="min-h-screen p-4 md:p-8 hidden">
-        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
-
-            <div class="bg-slate-900 p-6 text-white flex justify-between">
-                <h2 class="text-2xl font-bold">Enter Details</h2>
-                <button onclick="navigate('templates')" class="text-slate-300 hover:text-white text-sm">
-                    Change Template
-                </button>
-            </div>
-
-            <form id="cvForm" class="p-6 md:p-8 space-y-6">
-
-                
-                <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center">
-                    <input type="file" id="inp-image" accept="image/*" class="hidden" onchange="previewImage(event)" />
-                    <label for="inp-image" class="cursor-pointer flex flex-col items-center">
-                        <img id="img-preview" src="" class="hidden h-32 w-32 object-cover rounded-full shadow mb-4" />
-                        <div id="img-placeholder"
-                            class="h-20 w-20 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 mb-4">
-                            <i class="fa-solid fa-upload text-2xl"></i>
-                        </div>
-                        <span class="text-blue-600 font-medium">Upload Photo (Max 5MB)</span>
-                    </label>
-                </div>
-
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium mb-1">First Name <span class="text-red-500">*</span></label>
-                        <input type="text" id="inp-firstname" class="w-full p-3 border rounded-lg" required>
-                        <div class="error-msg">Required</div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Last Name <span class="text-red-500">*</span></label>
-                        <input type="text" id="inp-lastname" class="w-full p-3 border rounded-lg" required>
-                        <div class="error-msg">Required</div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Job Title <span class="text-red-500">*</span></label>
-                        <input type="text" id="inp-jobtitle" placeholder="e.g. Software Engineer"
-                            class="w-full p-3 border rounded-lg" required>
-                        <div class="error-msg">Required</div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Phone <span class="text-red-500">*</span></label>
-                        <input type="tel" id="inp-phone" class="w-full p-3 border rounded-lg" required>
-                        <div class="error-msg">Required</div>
-                    </div>
-                </div>
-
-                
-                <div>
-                    <label class="block text-sm font-medium mb-1">Email <span class="text-red-500">*</span></label>
-                    <input type="email" id="inp-email" placeholder="someone@gmail.com"
-                        class="w-full p-3 border rounded-lg" required>
-                    <div class="error-msg">Required</div>
-                </div>
-
-                
-                <div>
-                    <label class="block text-sm font-medium mb-1">Social Handle (Optional)</label>
-                    <input type="text" id="inp-social" placeholder="LinkedIn URL" class="w-full p-3 border rounded-lg">
-                </div>
-
-                
-                <div>
-                    <label class="block text-sm font-medium mb-1">
-                        Address <span class="text-red-500">*</span>
-                        <span class="text-xs text-slate-500">(Max 150 words)</span>
-                    </label>
-                    <textarea id="inp-address" rows="2" class="w-full p-3 border rounded-lg"
-                        oninput="checkWordLimit(this, 150)"></textarea>
-                    <div class="error-msg" id="err-address">Required, max 150 words.</div>
-                </div>
-
-                
-                <div>
-                    <label class="block text-sm font-medium mb-1">
-                        Education & Certifications <span class="text-red-500">*</span>
-                        <span class="text-xs text-slate-500">(Max 250 words)</span>
-                    </label>
-                    <textarea id="inp-edu" rows="3" class="w-full p-3 border rounded-lg"
-                        oninput="checkWordLimit(this, 250)"></textarea>
-                    <div class="error-msg" id="err-edu">Required, max 250 words.</div>
-                </div>
-
-                
-                <div>
-                    <label class="block text-sm font-medium mb-1">
-                        Jobs & Experience <span class="text-red-500">*</span>
-                        <span class="text-xs text-slate-500">(Max 250 words)</span>
-                    </label>
-                    <textarea id="inp-exp" rows="3" class="w-full p-3 border rounded-lg"
-                        oninput="checkWordLimit(this, 250)"></textarea>
-                    <div class="error-msg" id="err-exp">Required, max 250 words.</div>
-                </div>
-
-                
-                <div>
-                    <label class="block text-sm font-medium mb-1">
-                        Skills <span class="text-red-500">*</span>
-                        <span class="text-xs text-slate-500">(Max 8 skills, 25 words each)</span>
-                    </label>
-                    <div id="skills-container" class="grid grid-cols-2 gap-3">
-                        <input type="text" class="inp-skill w-full p-3 border rounded-lg" placeholder="Skill 1"
-                            oninput="checkWordLimit(this, 25)">
-                    </div>
-                    <button type="button" onclick="addSkill()" class="mt-2 text-blue-600 text-sm font-medium">
-                        + Add Skill
-                    </button>
-                </div>
-
-                
-                <div class="pt-4 border-t">
-                    <label class="block text-sm font-medium mb-1">Extra Curricular (Optional, Max 150 words)</label>
-                    <textarea id="inp-extra" rows="2" class="w-full p-3 border rounded-lg"
-                        oninput="checkWordLimit(this, 150)"></textarea>
-                </div>
-
-                
-                <div>
-                    <label class="block text-sm font-medium mb-1">References (Optional, Max 2)</label>
-                    <div id="refs-container" class="space-y-3">
-                        <textarea class="inp-ref w-full p-3 border rounded-lg" placeholder="Reference 1" rows="2"
-                            oninput="checkWordLimit(this, 200)"></textarea>
-                    </div>
-                    <button type="button" onclick="addRef()" class="mt-2 text-blue-600 text-sm font-medium">
-                        + Add Reference
-                    </button>
-                </div>
-
-                <button type="button" onclick="submitForm()"
-                    class="w-full bg-slate-900 text-white font-bold text-lg py-4 rounded-xl hover:bg-slate-800 transition">
-                    Generate CV
-                </button>
-            </form>
-        </div>
-    </div>
-
-
-    
-    <div id="view-result" class="min-h-screen bg-slate-100 hidden">
-
+    <div id="view-result" class="min-h-screen hidden view-section bg-[#f5f5f5]">
         
-        <div class="bg-slate-900 text-white p-4 sticky top-0 z-40 shadow-lg">
-            <div class="max-w-6xl mx-auto flex justify-between items-center">
-                <span class="font-bold text-lg">
-                    <i class="fa-solid fa-check text-green-400"></i> CV Generated!
+        <div class="bg-white border-b border-gray-200 sticky top-0 z-40 px-6 py-4">
+            <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+                <span class="font-bold text-lg tracking-tight flex items-center gap-2">
+                    <i class="fa-solid fa-check text-black"></i> Document Ready
                 </span>
                 <div class="flex gap-3">
-                    <button onclick="downloadPDF()"
-                        class="bg-blue-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-500 flex items-center gap-2">
-                        <i class="fa-solid fa-file-pdf"></i> Download PDF
+                    <button onclick="downloadPDF()" class="uber-btn px-6 py-2 text-sm rounded-md">
+                        <i class="fa-solid fa-download"></i> PDF
                     </button>
-                    <button onclick="downloadWord()"
-                        class="bg-indigo-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-indigo-500 flex items-center gap-2">
-                        <i class="fa-solid fa-file-word"></i> Word (.doc)
+                    <button onclick="downloadWord()" class="uber-btn-outline px-6 py-2 text-sm rounded-md font-semibold">
+                        <i class="fa-solid fa-file-word"></i> Word
                     </button>
                 </div>
             </div>
         </div>
 
-        <div class="p-8 flex flex-col lg:flex-row gap-8 max-w-7xl mx-auto">
-
+        <div class="p-6 md:p-10 flex flex-col lg:flex-row gap-10 max-w-7xl mx-auto items-start">
             
-            <div class="flex-1 overflow-auto rounded-xl" id="cv-preview-container">
+            <div class="flex-1 w-full overflow-x-auto pb-8">
+                <div id="cv-preview-container" class="mx-auto w-full max-w-[850px]">
+                    
+                    <div id="render-template-1" class="hidden bg-white p-12 font-sans text-[#111] min-h-[1100px]">
+                        <div class="flex items-center gap-8 border-b-2 border-black pb-8 mb-8">
+                            <img id="t1-img" src="" class="w-28 h-28 rounded-full object-cover hidden">
+                            <div>
+                                <h1 id="t1-name" class="text-5xl font-bold uppercase tracking-tight"></h1>
+                                <p id="t1-job" class="text-2xl text-gray-500 mt-2 font-light"></p>
+                                <div class="flex flex-wrap gap-5 mt-4 text-sm font-medium">
+                                    <span><i class="fa-solid fa-envelope mr-1"></i> <span id="t1-email"></span></span>
+                                    <span><i class="fa-solid fa-phone mr-1"></i> <span id="t1-phone"></span></span>
+                                    <span><i class="fa-solid fa-map-marker-alt mr-1"></i> <span id="t1-address"></span></span>
+                                    <span id="t1-social-wrapper" class="hidden"><i class="fa-brands fa-linkedin mr-1"></i> <span id="t1-social"></span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-8"><h2 class="text-sm tracking-widest text-gray-400 font-bold uppercase mb-4">Experience</h2><p id="t1-exp" class="whitespace-pre-wrap text-base leading-relaxed"></p></div>
+                        <div class="mb-8"><h2 class="text-sm tracking-widest text-gray-400 font-bold uppercase mb-4">Education</h2><p id="t1-edu" class="whitespace-pre-wrap text-base leading-relaxed"></p></div>
+                        <div class="mb-8"><h2 class="text-sm tracking-widest text-gray-400 font-bold uppercase mb-4">Skills</h2><ul id="t1-skills" class="grid grid-cols-2 gap-y-3 gap-x-6 list-disc pl-5 text-base"></ul></div>
+                        <div id="t1-extra-wrapper" class="mb-8 hidden"><h2 class="text-sm tracking-widest text-gray-400 font-bold uppercase mb-4">Extra Curricular</h2><p id="t1-extra" class="whitespace-pre-wrap text-base leading-relaxed"></p></div>
+                        <div id="t1-refs-wrapper" class="hidden"><h2 class="text-sm tracking-widest text-gray-400 font-bold uppercase mb-4">References</h2><div id="t1-refs" class="grid grid-cols-2 gap-6 text-base whitespace-pre-wrap"></div></div>
+                    </div>
 
-                
-                <div id="render-template-1" class="hidden bg-white p-10 shadow-lg font-sans text-slate-800 min-h-[1000px]">
-                    <div class="flex gap-6 border-b-2 border-slate-800 pb-6 mb-6">
-                        <img id="t1-img" src="" class="w-24 h-24 rounded-full object-cover hidden">
-                        <div>
-                            <h1 id="t1-name" class="text-4xl font-bold uppercase tracking-wider"></h1>
-                            <p id="t1-job" class="text-xl text-slate-600 mt-1"></p>
-                            <div class="flex flex-wrap gap-4 mt-3 text-sm">
-                                <span><i class="fa-solid fa-envelope"></i> <span id="t1-email"></span></span>
-                                <span><i class="fa-solid fa-phone"></i> <span id="t1-phone"></span></span>
-                                <span><i class="fa-solid fa-map-marker-alt"></i> <span id="t1-address"></span></span>
-                                <span id="t1-social-wrapper" class="hidden">
-                                    <i class="fa-brands fa-linkedin"></i> <span id="t1-social"></span>
-                                </span>
+                    <div id="render-template-2" class="hidden bg-white font-sans text-[#111] flex min-h-[1100px]">
+                        <div class="w-1/3 bg-black text-white p-10">
+                            <div class="flex justify-center mb-10"><img id="t2-img" src="" class="w-32 h-32 rounded-full object-cover hidden border-2 border-gray-800"></div>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Contact</h3>
+                            <div class="space-y-4 text-sm mb-10 font-light">
+                                <p><span id="t2-email"></span></p>
+                                <p><span id="t2-phone"></span></p>
+                                <p><span id="t2-address"></span></p>
+                                <p id="t2-social-wrapper" class="hidden"><span id="t2-social"></span></p>
+                            </div>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Skills</h3>
+                            <ul id="t2-skills" class="space-y-3 text-sm mb-10 font-light list-none"></ul>
+                            <div id="t2-refs-wrapper" class="hidden">
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">References</h3>
+                                <div id="t2-refs" class="space-y-5 text-sm whitespace-pre-wrap font-light"></div>
+                            </div>
+                        </div>
+                        <div class="w-2/3 p-12 bg-[#fafafa]">
+                            <h1 id="t2-name" class="text-6xl font-extrabold uppercase mb-2 tracking-tighter leading-none"></h1>
+                            <p id="t2-job" class="text-2xl text-gray-500 font-light mb-12"></p>
+                            
+                            <h2 class="text-sm font-bold text-black uppercase tracking-widest mb-4 border-b border-gray-200 pb-2">Experience</h2>
+                            <p id="t2-exp" class="text-base whitespace-pre-wrap mb-10 leading-relaxed"></p>
+                            
+                            <h2 class="text-sm font-bold text-black uppercase tracking-widest mb-4 border-b border-gray-200 pb-2">Education</h2>
+                            <p id="t2-edu" class="text-base whitespace-pre-wrap mb-10 leading-relaxed"></p>
+
+                            <div id="t2-extra-wrapper" class="hidden">
+                                <h2 class="text-sm font-bold text-black uppercase tracking-widest mb-4 border-b border-gray-200 pb-2">Extra Curricular</h2>
+                                <p id="t2-extra" class="text-base whitespace-pre-wrap leading-relaxed"></p>
                             </div>
                         </div>
                     </div>
-                    <div class="mb-6">
-                        <h2 class="text-lg font-bold uppercase border-b mb-3">Experience</h2>
-                        <p id="t1-exp" class="whitespace-pre-wrap text-sm"></p>
-                    </div>
-                    <div class="mb-6">
-                        <h2 class="text-lg font-bold uppercase border-b mb-3">Education</h2>
-                        <p id="t1-edu" class="whitespace-pre-wrap text-sm"></p>
-                    </div>
-                    <div class="mb-6">
-                        <h2 class="text-lg font-bold uppercase border-b mb-3">Skills</h2>
-                        <ul id="t1-skills" class="grid grid-cols-2 gap-2 list-disc pl-5 text-sm"></ul>
-                    </div>
-                    <div id="t1-extra-wrapper" class="mb-6 hidden">
-                        <h2 class="text-lg font-bold uppercase border-b mb-3">Extra Curricular</h2>
-                        <p id="t1-extra" class="whitespace-pre-wrap text-sm"></p>
-                    </div>
-                    <div id="t1-refs-wrapper" class="hidden">
-                        <h2 class="text-lg font-bold uppercase border-b mb-3">References</h2>
-                        <div id="t1-refs" class="grid grid-cols-2 gap-4 text-sm whitespace-pre-wrap"></div>
-                    </div>
                 </div>
-
-                
-                <div id="render-template-2" class="hidden bg-white shadow-lg font-sans text-slate-800 flex min-h-[1000px]">
-                    <div class="w-1/3 bg-blue-900 text-blue-50 p-8">
-                        <div class="flex justify-center mb-8">
-                            <img id="t2-img" src="" class="w-32 h-32 rounded-full object-cover border-4 border-blue-400 hidden">
-                        </div>
-                        <h3 class="font-bold uppercase border-b border-blue-700 pb-2 mb-4">Contact</h3>
-                        <div class="space-y-3 text-sm mb-8">
-                            <p><i class="fa-solid fa-envelope mr-2"></i><span id="t2-email"></span></p>
-                            <p><i class="fa-solid fa-phone mr-2"></i><span id="t2-phone"></span></p>
-                            <p><i class="fa-solid fa-map-marker-alt mr-2"></i><span id="t2-address"></span></p>
-                            <p id="t2-social-wrapper" class="hidden">
-                                <i class="fa-brands fa-linkedin mr-2"></i><span id="t2-social"></span>
-                            </p>
-                        </div>
-                        <h3 class="font-bold uppercase border-b border-blue-700 pb-2 mb-4">Skills</h3>
-                        <ul id="t2-skills" class="space-y-2 text-sm mb-8"></ul>
-                        <div id="t2-refs-wrapper" class="hidden">
-                            <h3 class="font-bold uppercase border-b border-blue-700 pb-2 mb-4">References</h3>
-                            <div id="t2-refs" class="space-y-4 text-sm whitespace-pre-wrap"></div>
-                        </div>
-                    </div>
-                    <div class="w-2/3 p-10 bg-white">
-                        <h1 id="t2-name" class="text-5xl font-extrabold uppercase mb-2 leading-tight"></h1>
-                        <p id="t2-job" class="text-2xl text-slate-500 font-light mb-10"></p>
-                        <h2 class="text-xl font-bold uppercase flex items-center gap-2 mb-4">
-                            <div class="p-2 bg-blue-100 text-blue-600 rounded">
-                                <i class="fa-solid fa-briefcase"></i>
-                            </div> Experience
-                        </h2>
-                        <p id="t2-exp" class="text-sm whitespace-pre-wrap mb-8"></p>
-                        <h2 class="text-xl font-bold uppercase flex items-center gap-2 mb-4">
-                            <div class="p-2 bg-blue-100 text-blue-600 rounded">
-                                <i class="fa-solid fa-graduation-cap"></i>
-                            </div> Education
-                        </h2>
-                        <p id="t2-edu" class="text-sm whitespace-pre-wrap mb-8"></p>
-                        <div id="t2-extra-wrapper" class="hidden">
-                            <h2 class="text-xl font-bold uppercase flex items-center gap-2 mb-4">
-                                <div class="p-2 bg-blue-100 text-blue-600 rounded">
-                                    <i class="fa-solid fa-users"></i>
-                                </div> Extra Curricular
-                            </h2>
-                            <p id="t2-extra" class="text-sm whitespace-pre-wrap"></p>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
-
-            
-            <div class="lg:w-80 space-y-6">
-
+            <div class="lg:w-[340px] w-full flex flex-col gap-6 shrink-0">
                 
-                <div class="bg-blue-50 p-6 rounded-xl border border-blue-200">
-                    <h3 class="font-bold text-lg mb-2 text-blue-900">
-                        <i class="fa-solid fa-database"></i> Save to Database
-                    </h3>
-                    <p class="text-sm text-blue-700 mb-4">
-                        Click below to send your CV details to the PHP backend.
-                    </p>
-                    <button id="btn-save-db" onclick="saveToDatabase()"
-                        class="w-full bg-blue-600 text-white font-bold py-2 rounded hover:bg-blue-700">
-                        Save Data
-                    </button>
-                    <p id="db-response" class="text-xs text-green-600 mt-2 font-bold hidden">
-                        Data Saved Successfully!
-                    </p>
+                <div class="uber-card p-6 border-black">
+                    <h3 class="font-bold text-lg mb-2 text-black">Database Save</h3>
+                    <p class="text-sm text-gray-500 mb-5">Sync record to local text file.</p>
+                    <button id="btn-save-db" onclick="saveToDatabase()" class="uber-btn w-full py-3 text-sm rounded-md">Save Record</button>
+                    <p id="db-response" class="text-xs text-black mt-3 font-semibold hidden"><i class="fa-solid fa-check"></i> Saved successfully.</p>
                 </div>
 
-                
-                <div class="bg-white p-6 rounded-xl shadow-sm border">
-                    <h3 class="font-bold text-lg mb-4">
-                        <i class="fa-solid fa-share-nodes text-blue-600"></i> Share
-                    </h3>
+                <div class="uber-card p-6">
+                    <h3 class="font-bold text-lg mb-4 text-black">Network</h3>
                     <div class="grid grid-cols-2 gap-3">
-                        <button onclick="shareWhatsApp()" class="share-btn share-whatsapp">
-                            <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                        </button>
-                        <button onclick="shareTwitter()" class="share-btn share-twitter">
-                            𝕏 Twitter
-                        </button>
+                        <a href="https://api.whatsapp.com/send?text=I%20just%20created%20an%20awesome%20new%20CV%20using%20the%20Automated%20CV%20Builder!" target="_blank" rel="noopener noreferrer" class="uber-btn-outline rounded-md py-2 flex justify-center text-lg"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="https://twitter.com/intent/tweet?text=Just%20updated%20my%20resume%20using%20the%20Automated%20CV%20Builder!" target="_blank" rel="noopener noreferrer" class="uber-btn-outline rounded-md py-2 flex justify-center text-lg"><i class="fa-brands fa-x-twitter"></i></a>
                     </div>
                 </div>
 
-                
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-magnifying-glass text-green-600"></i> Find Jobs
-                    </h3>
+                <div class="uber-card p-6">
+                    <h3 class="font-bold text-lg mb-4 text-black">Job Search</h3>
                     <form onsubmit="event.preventDefault(); searchGoogleJobs();">
-                        <input type="text" id="inp-search-job" placeholder="e.g. Software Engineer remote"
-                            class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 mb-3"
-                            required />
-                        <button type="submit"
-                            class="w-full bg-green-600 text-white font-bold py-3 rounded-lg hover:bg-green-700 transition">
-                            Search on Google
-                        </button>
+                        <input type="text" id="inp-search-job" placeholder="e.g. Designer remote" class="uber-input mb-4 text-sm" required />
+                        <button type="submit" class="uber-btn w-full py-3 text-sm rounded-md">Search Google</button>
                     </form>
                 </div>
 
-                
-                <div class="bg-purple-50 p-6 rounded-xl border border-purple-200">
-                    <h3 class="font-bold text-lg mb-2 text-purple-900">
-                        <i class="fa-solid fa-comment-dots"></i> Feedback
-                    </h3>
-                    <textarea id="inp-feedback" rows="2"
-                        class="w-full p-2 border border-purple-300 rounded mb-2 text-sm"
-                        placeholder="Tell us what you think..."></textarea>
-                    <button id="btn-feedback" onclick="submitFeedback()"
-                        class="w-full bg-purple-600 text-white py-2 rounded text-sm font-bold hover:bg-purple-700">
-                        Send Feedback
-                    </button>
-                    <p id="feedback-response" class="text-xs text-green-600 mt-2 font-bold hidden">
-                        Feedback sent!
-                    </p>
+                <div class="uber-card p-6">
+                    <h3 class="font-bold text-lg mb-3 text-black">Feedback</h3>
+                    <textarea id="inp-feedback" rows="2" class="uber-textarea text-sm mb-4" placeholder="Your thoughts..."></textarea>
+                    <button id="btn-feedback" onclick="submitFeedback()" class="uber-btn-outline w-full py-3 text-sm rounded-md font-semibold">Send</button>
+                    <p id="feedback-response" class="text-xs text-black mt-3 font-semibold hidden"><i class="fa-solid fa-check"></i> Sent.</p>
                 </div>
 
-                <button onclick="navigate('home')" class="w-full py-3 text-slate-500 underline">
-                    Start Over
-                </button>
-
+                <button onclick="navigate('home')" class="text-gray-500 hover:text-black font-semibold text-sm underline text-center w-full mt-2">Start Over</button>
             </div>
         </div>
     </div>
 
-
-    
-    <div id="modal-payment" class="fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 hidden">
-        <div class="bg-white p-8 rounded-xl max-w-sm w-full text-center relative">
-            <button onclick="closeModals()" class="absolute top-4 right-4 text-slate-400">
-                <i class="fa-solid fa-times text-xl"></i>
-            </button>
-            <div class="w-16 h-16 bg-amber-100 rounded-full mx-auto flex items-center justify-center text-amber-600 text-2xl mb-4">
-                <i class="fa-solid fa-crown"></i>
-            </div>
-            <h3 class="text-2xl font-bold mb-2">Premium Layout</h3>
-            <p class="text-slate-500 mb-6">Demo Payment Gateway</p>
-            <button onclick="closeModals(); alert('Payment Successful Demo');"
-                class="w-full bg-slate-900 text-white py-3 rounded font-bold">
-                Pay $9.99
-            </button>
+    <div id="modal-payment" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 hidden view-section fade-in-up">
+        <div class="bg-white p-10 rounded-2xl max-w-sm w-full text-center relative shadow-2xl">
+            <button onclick="closeModals()" class="absolute top-5 right-5 text-gray-400 hover:text-black transition"><i class="fa-solid fa-times text-xl"></i></button>
+            <div class="w-16 h-16 bg-gray-100 rounded-full mx-auto flex items-center justify-center text-black text-2xl mb-6"><i class="fa-solid fa-lock"></i></div>
+            <h3 class="text-2xl font-bold mb-2 tracking-tight">Premium</h3>
+            <p class="text-gray-500 mb-8 text-sm">Unlock executive templates.</p>
+            <button onclick="closeModals(); alert('Demo logic executed.');" class="uber-btn w-full py-4">Unlock for $9.99</button>
         </div>
     </div>
 
-
-    
-    <div id="modal-warning" class="fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 hidden">
-        <div class="bg-white p-8 rounded-xl max-w-sm w-full text-center">
-            <div class="w-16 h-16 bg-red-100 rounded-full mx-auto flex items-center justify-center text-red-600 text-2xl mb-4">
-                <i class="fa-solid fa-exclamation"></i>
-            </div>
-            <h3 class="text-xl font-bold mb-2">Missing Optionals</h3>
-            <p class="text-slate-600 mb-6 text-sm">
-                You left optional fields empty. They will be marked as "N/A". Continue?
-            </p>
-            <div class="flex gap-4">
-                <button onclick="closeModals()" class="flex-1 bg-slate-200 py-2 rounded">Cancel</button>
-                <button onclick="proceedToResult()" class="flex-1 bg-blue-600 text-white py-2 rounded">Proceed</button>
+    <div id="modal-warning" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 hidden view-section fade-in-up">
+        <div class="bg-white p-10 rounded-2xl max-w-sm w-full text-center shadow-2xl">
+            <h3 class="text-xl font-bold mb-3 tracking-tight">Optionals Empty</h3>
+            <p class="text-gray-500 mb-8 text-sm">Empty fields will render as "N/A". Proceed?</p>
+            <div class="flex gap-3">
+                <button onclick="closeModals()" class="uber-btn-outline flex-1 py-3 rounded-md font-semibold">Review</button>
+                <button onclick="proceedToResult()" class="uber-btn flex-1 py-3 rounded-md">Proceed</button>
             </div>
         </div>
     </div>
 
-
-    
     <script>
         let currentTemplate = 1;
         let uploadedImage = null;
 
         function navigate(viewId) {
-            document.querySelectorAll('body > div[id^="view-"]').forEach(el => el.classList.add('hidden'));
-            document.getElementById('view-' + viewId).classList.remove('hidden');
+            document.querySelectorAll('.view-section:not([id^="modal-"])').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('fade-in-up');
+            });
+            const view = document.getElementById('view-' + viewId);
+            view.classList.remove('hidden');
+            void view.offsetWidth;
+            view.classList.add('fade-in-up');
+            window.scrollTo(0,0);
         }
 
         function selectTemplate(id) {
@@ -516,7 +517,14 @@
             navigate('form');
         }
 
-        function showPaymentModal() { document.getElementById('modal-payment').classList.remove('hidden'); }
+        function showPaymentModal() { 
+            const m = document.getElementById('modal-payment');
+            m.classList.remove('hidden'); 
+            m.classList.remove('fade-in-up');
+            void m.offsetWidth;
+            m.classList.add('fade-in-up');
+        }
+
         function closeModals() {
             document.getElementById('modal-payment').classList.add('hidden');
             document.getElementById('modal-warning').classList.add('hidden');
@@ -524,51 +532,45 @@
 
         function previewImage(event) {
             const file = event.target.files[0];
-            if (!file) return;
-            if (file.size > 5 * 1024 * 1024) { alert('Max size 5MB'); return; }
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                uploadedImage = e.target.result;
-                document.getElementById('img-preview').src = uploadedImage;
-                document.getElementById('img-preview').classList.remove('hidden');
-                document.getElementById('img-placeholder').classList.add('hidden');
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function addSkill() {
-            const c = document.getElementById('skills-container');
-            if (c.children.length < 8) {
-                c.insertAdjacentHTML('beforeend',
-                    `<input type="text" class="inp-skill w-full p-3 border rounded-lg"
-                        placeholder="Skill ${c.children.length + 1}" oninput="checkWordLimit(this, 25)">`
-                );
-            } else { alert('Maximum 8 skills allowed.'); }
-        }
-
-        function addRef() {
-            const c = document.getElementById('refs-container');
-            if (c.children.length < 2) {
-                c.insertAdjacentHTML('beforeend',
-                    `<textarea class="inp-ref w-full p-3 border rounded-lg"
-                        placeholder="Reference 2" rows="2" oninput="checkWordLimit(this, 200)"></textarea>`
-                );
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) { alert("Max size 5MB"); return; }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImage = e.target.result;
+                    document.getElementById('img-preview').src = uploadedImage;
+                    document.getElementById('img-preview').classList.remove('hidden');
+                    document.getElementById('img-placeholder').classList.add('hidden');
+                }
+                reader.readAsDataURL(file);
             }
         }
 
-        function checkWordLimit(el, maxWords) {
-            const words = el.value.trim().split(/\s+/).filter(w => w.length > 0);
+        function addSkill() {
+            const container = document.getElementById('skills-container');
+            if (container.children.length < 8) {
+                container.insertAdjacentHTML('beforeend', `<input type="text" class="inp-skill uber-input" placeholder="Skill ${container.children.length + 1}" oninput="checkWordLimit(this, 25)">`);
+            } else { alert("Maximum 8 skills."); }
+        }
+
+        function addRef() {
+            const container = document.getElementById('refs-container');
+            if (container.children.length < 2) {
+                container.insertAdjacentHTML('beforeend', `<textarea class="inp-ref uber-textarea mt-3" placeholder="Reference ${container.children.length + 1}" rows="2" oninput="checkWordLimit(this, 200)"></textarea>`);
+            }
+        }
+
+        function checkWordLimit(element, maxWords) {
+            const words = element.value.trim().split(/\s+/).filter(w => w.length > 0);
             if (words.length > maxWords) {
-                el.value = words.slice(0, maxWords).join(' ');
-                alert(`Maximum ${maxWords} words allowed here.`);
+                element.value = words.slice(0, maxWords).join(" ");
             }
         }
 
         function submitForm() {
             let isValid = true;
-            const required = ['inp-firstname', 'inp-lastname', 'inp-jobtitle', 'inp-phone', 'inp-email', 'inp-address', 'inp-edu', 'inp-exp'];
-
-            required.forEach(id => {
+            const requiredIds = ['inp-firstname', 'inp-lastname', 'inp-jobtitle', 'inp-phone', 'inp-email', 'inp-address', 'inp-edu', 'inp-exp'];
+            
+            requiredIds.forEach(id => {
                 const el = document.getElementById(id);
                 if (!el.value.trim()) {
                     el.classList.add('input-error');
@@ -578,17 +580,24 @@
                 }
             });
 
-            const skills = Array.from(document.querySelectorAll('.inp-skill')).map(i => i.value.trim()).filter(v => v);
-            if (skills.length === 0) { alert('At least one skill is required.'); isValid = false; }
+            const skills = Array.from(document.querySelectorAll('.inp-skill')).map(input => input.value.trim()).filter(v => v);
+            if (skills.length === 0) { 
+                document.querySelector('.inp-skill').classList.add('input-error');
+                isValid = false; 
+            }
 
             if (!isValid) return;
 
             const social = document.getElementById('inp-social').value.trim();
-            const extra  = document.getElementById('inp-extra').value.trim();
-            const refs   = Array.from(document.querySelectorAll('.inp-ref')).map(i => i.value.trim()).filter(v => v);
+            const extra = document.getElementById('inp-extra').value.trim();
+            const refs = Array.from(document.querySelectorAll('.inp-ref')).map(input => input.value.trim()).filter(v => v);
 
             if (!social || !extra || refs.length === 0) {
-                document.getElementById('modal-warning').classList.remove('hidden');
+                const w = document.getElementById('modal-warning');
+                w.classList.remove('hidden');
+                w.classList.remove('fade-in-up');
+                void w.offsetWidth;
+                w.classList.add('fade-in-up');
             } else {
                 proceedToResult();
             }
@@ -597,21 +606,20 @@
         function proceedToResult() {
             closeModals();
             const data = {
-                fname:   document.getElementById('inp-firstname').value.trim(),
-                lname:   document.getElementById('inp-lastname').value.trim(),
-                job:     document.getElementById('inp-jobtitle').value.trim(),
-                phone:   document.getElementById('inp-phone').value.trim(),
-                email:   document.getElementById('inp-email').value.trim(),
-                social:  document.getElementById('inp-social').value.trim() || 'N/A',
+                fname: document.getElementById('inp-firstname').value.trim(),
+                lname: document.getElementById('inp-lastname').value.trim(),
+                job: document.getElementById('inp-jobtitle').value.trim(),
+                phone: document.getElementById('inp-phone').value.trim(),
+                email: document.getElementById('inp-email').value.trim(),
+                social: document.getElementById('inp-social').value.trim() || 'N/A',
                 address: document.getElementById('inp-address').value.trim(),
-                edu:     document.getElementById('inp-edu').value.trim(),
-                exp:     document.getElementById('inp-exp').value.trim(),
-                extra:   document.getElementById('inp-extra').value.trim() || 'N/A',
-                skills:  Array.from(document.querySelectorAll('.inp-skill')).map(i => i.value.trim()).filter(v => v),
-                refs:    Array.from(document.querySelectorAll('.inp-ref')).map(i => i.value.trim()).filter(v => v)
+                edu: document.getElementById('inp-edu').value.trim(),
+                exp: document.getElementById('inp-exp').value.trim(),
+                extra: document.getElementById('inp-extra').value.trim() || 'N/A',
+                skills: Array.from(document.querySelectorAll('.inp-skill')).map(i => i.value.trim()).filter(v => v),
+                refs: Array.from(document.querySelectorAll('.inp-ref')).map(i => i.value.trim()).filter(v => v)
             };
-            if (data.refs.length === 0) data.refs = ['N/A'];
-
+            if(data.refs.length === 0) data.refs = ['N/A'];
             renderCV(data);
             navigate('result');
         }
@@ -619,18 +627,16 @@
         function renderCV(data) {
             document.getElementById('render-template-1').classList.add('hidden');
             document.getElementById('render-template-2').classList.add('hidden');
-
+            
             const prefix = currentTemplate === 1 ? 't1' : 't2';
             document.getElementById(`render-template-${currentTemplate}`).classList.remove('hidden');
 
-            document.getElementById(`${prefix}-name`).innerText    = `${data.fname} ${data.lname}`;
-            document.getElementById(`${prefix}-job`).innerText     = data.job;
-            document.getElementById(`${prefix}-email`).innerText   = data.email;
-            document.getElementById(`${prefix}-phone`).innerText   = data.phone;
+            document.getElementById(`${prefix}-name`).innerText = `${data.fname} ${data.lname}`;
+            document.getElementById(`${prefix}-job`).innerText = data.job;
+            document.getElementById(`${prefix}-email`).innerText = data.email;
+            document.getElementById(`${prefix}-phone`).innerText = data.phone;
             document.getElementById(`${prefix}-address`).innerText = data.address;
-            document.getElementById(`${prefix}-exp`).innerText     = data.exp;
-            document.getElementById(`${prefix}-edu`).innerText     = data.edu;
-
+            
             if (data.social !== 'N/A') {
                 document.getElementById(`${prefix}-social-wrapper`).classList.remove('hidden');
                 document.getElementById(`${prefix}-social`).innerText = data.social;
@@ -638,13 +644,16 @@
                 document.getElementById(`${prefix}-social-wrapper`).classList.add('hidden');
             }
 
-            const skillsEl = document.getElementById(`${prefix}-skills`);
-            skillsEl.innerHTML = '';
+            document.getElementById(`${prefix}-exp`).innerText = data.exp;
+            document.getElementById(`${prefix}-edu`).innerText = data.edu;
+
+            const skillsUl = document.getElementById(`${prefix}-skills`);
+            skillsUl.innerHTML = '';
             data.skills.forEach(skill => {
                 const li = document.createElement('li');
-                if (currentTemplate === 2) li.className = 'bg-blue-800/50 p-2 rounded block';
+                if (currentTemplate === 2) li.className = 'border-b border-gray-800 pb-1 block';
                 li.innerText = skill;
-                skillsEl.appendChild(li);
+                skillsUl.appendChild(li);
             });
 
             if (data.extra !== 'N/A') {
@@ -656,13 +665,12 @@
 
             if (data.refs[0] !== 'N/A') {
                 document.getElementById(`${prefix}-refs-wrapper`).classList.remove('hidden');
-                const refsEl = document.getElementById(`${prefix}-refs`);
-                refsEl.innerHTML = '';
+                const refsContainer = document.getElementById(`${prefix}-refs`);
+                refsContainer.innerHTML = '';
                 data.refs.forEach(ref => {
                     const p = document.createElement('p');
-                    if (currentTemplate === 2) p.className = 'text-blue-200';
                     p.innerText = ref;
-                    refsEl.appendChild(p);
+                    refsContainer.appendChild(p);
                 });
             } else {
                 document.getElementById(`${prefix}-refs-wrapper`).classList.add('hidden');
@@ -676,114 +684,83 @@
 
         function downloadPDF() {
             const element = document.getElementById(`render-template-${currentTemplate}`);
-            const name    = document.getElementById('inp-firstname').value || 'User';
-            html2pdf().set({
+            const name = document.getElementById('inp-firstname').value || 'User';
+            const opt = {
                 margin: 0,
-                filename: `${name}_Resume.pdf`,
+                filename: `${name}_CV.pdf`,
                 image: { type: 'jpeg', quality: 1 },
-                html2canvas: { scale: 2, useCORS: true, scrollY: 0, scrollX: 0 },
+                html2canvas: { scale: 2, useCORS: true, scrollY: 0, scrollX: 0, windowWidth: document.documentElement.offsetWidth },
                 jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-            }).from(element).save();
+            };
+            html2pdf().set(opt).from(element).save();
         }
 
         function downloadWord() {
             const element = document.getElementById(`render-template-${currentTemplate}`);
-            const name    = document.getElementById('inp-firstname').value || 'User';
-            const source  = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(
-                "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
-                "xmlns:w='urn:schemas-microsoft-com:office:word' " +
-                "xmlns='http://www.w3.org/TR/REC-html40'>" +
-                "<head><meta charset='utf-8'></head><body>" + element.innerHTML + "</body></html>"
-            );
-            const a = document.createElement('a');
-            a.href = source;
-            a.download = `${name}_CV.doc`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            const name = document.getElementById('inp-firstname').value || 'User';
+            const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Doc</title></head><body>";
+            const footer = "</body></html>";
+            const sourceHTML = header + element.innerHTML + footer;
+            const source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+            const fileDownload = document.createElement("a");
+            document.body.appendChild(fileDownload);
+            fileDownload.href = source;
+            fileDownload.download = `${name}_CV.doc`;
+            fileDownload.click();
+            document.body.removeChild(fileDownload);
         }
 
         function searchGoogleJobs() {
             const query = document.getElementById('inp-search-job').value;
-            if (query) window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}+jobs&ibp=htl;jobs`, '_blank');
+            if(query) window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}+jobs&ibp=htl;jobs`, '_blank');
         }
 
-        function shareWhatsApp() {
-            const name = document.getElementById('inp-firstname').value + ' ' + document.getElementById('inp-lastname').value;
-            const job  = document.getElementById('inp-jobtitle').value;
-            const msg  = `Hi! I just built my professional CV as *${job}* using AutoCV Builder! 🚀\nCheck it out: ${window.location.href}`;
-            window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-        }
-
-        function shareTwitter() {
-            const job  = document.getElementById('inp-jobtitle').value;
-            const text = `Just built my professional resume as ${job} with AutoCV Builder — 100% free! 🚀\n#CV #Resume #JobSearch\n${window.location.href}`;
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+        function submitFeedback() {
+            const feedback = document.getElementById('inp-feedback').value.trim();
+            if (!feedback) return;
+            const btn = document.getElementById('btn-feedback');
+            btn.innerText = "Wait...";
+            fetch('submit_feedback.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ feedback: feedback })
+            })
+            .then(response => response.json())
+            .then(data => {
+                btn.innerText = "Sent";
+                btn.classList.add('bg-black', 'text-white');
+                document.getElementById('feedback-response').classList.remove('hidden');
+                document.getElementById('inp-feedback').value = '';
+            })
+            .catch(error => {
+                btn.innerText = "Send";
+            });
         }
 
         function saveToDatabase() {
             const btn = document.getElementById('btn-save-db');
-            btn.innerText = 'Saving...';
-
+            btn.innerText = "Processing...";
             const payload = {
                 first_name: document.getElementById('inp-firstname').value,
-                last_name:  document.getElementById('inp-lastname').value,
-                email:      document.getElementById('inp-email').value,
-                phone:      document.getElementById('inp-phone').value,
-                job_title:  document.getElementById('inp-jobtitle').value,
-                address:    document.getElementById('inp-address').value,
-                social:     document.getElementById('inp-social').value,
-                edu:        document.getElementById('inp-edu').value,
-                exp:        document.getElementById('inp-exp').value,
-                extra:      document.getElementById('inp-extra').value,
-                skills:     Array.from(document.querySelectorAll('.inp-skill')).map(i => i.value.trim()).filter(v => v),
-                refs:       Array.from(document.querySelectorAll('.inp-ref')).map(i => i.value.trim()).filter(v => v)
+                last_name: document.getElementById('inp-lastname').value,
+                email: document.getElementById('inp-email').value,
+                job_title: document.getElementById('inp-jobtitle').value
             };
-
             fetch('submit_cv.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             })
-            .then(r => r.json())
-            .then(() => {
-                btn.innerText = 'Saved!';
-                btn.classList.replace('bg-blue-600', 'bg-green-600');
+            .then(response => response.json())
+            .then(data => {
+                btn.innerText = "Saved";
+                btn.classList.add('bg-green-600', 'border-green-600');
                 document.getElementById('db-response').classList.remove('hidden');
             })
-            .catch(err => {
-                console.error(err);
-                btn.innerText = 'Save Data';
-                alert('Ensure XAMPP/WAMP is running and submit_cv.php is in the same folder.');
-            });
-        }
-
-        function submitFeedback() {
-            const feedback = document.getElementById('inp-feedback').value.trim();
-            if (!feedback) { alert('Please write some feedback first.'); return; }
-
-            const btn = document.getElementById('btn-feedback');
-            btn.innerText = 'Sending...';
-
-            fetch('submit_feedback.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ feedback })
-            })
-            .then(r => r.json())
-            .then(() => {
-                btn.innerText = 'Sent!';
-                btn.classList.replace('bg-purple-600', 'bg-green-600');
-                document.getElementById('feedback-response').classList.remove('hidden');
-                document.getElementById('inp-feedback').value = '';
-            })
-            .catch(err => {
-                console.error(err);
-                btn.innerText = 'Send Feedback';
-                alert('Ensure XAMPP/WAMP is running and submit_feedback.php is in the same folder.');
+            .catch(error => {
+                btn.innerText = "Save Record";
             });
         }
     </script>
-
 </body>
 </html>
