@@ -1,26 +1,33 @@
 <?php
-// submit_feedback.php
-// Receives Feedback and saves it to a .txt file
+
 header('Content-Type: application/json');
 
-$json_data = file_get_contents('php://input');
-$data = json_decode($json_data, true);
+$data = json_decode(file_get_contents('php:
 
 if (!$data || empty($data['feedback'])) {
-    echo json_encode(['status' => 'error', 'message' => 'No feedback received']);
+    echo json_encode(['status' => 'error', 'message' => 'No feedback received.']);
     exit;
 }
 
-$date = date('Y-m-d H:i:s');
-$feedbackText = htmlspecialchars(strip_tags($data['feedback']));
 
-$logEntry = "[$date] Feedback Received: \"$feedbackText\"\n";
+$timestamp    = date('Y-m-d_H-i-s') . '_' . substr(uniqid(), -5);
+$filename     = "feedback_{$timestamp}.txt";
+$feedbackText = htmlspecialchars(strip_tags(trim($data['feedback'])));
 
-$file = 'feedback_data.txt';
 
-if(file_put_contents($file, $logEntry, FILE_APPEND | LOCK_EX)) {
-    echo json_encode(['status' => 'success', 'message' => 'Feedback saved']);
+$content  = "================================================\n";
+$content .= "  AutoCV Builder — User Feedback\n";
+$content .= "  Received: " . date('Y-m-d H:i:s') . "\n";
+$content .= "================================================\n\n";
+$content .= $feedbackText . "\n";
+
+
+$dir = 'feedback_submissions/';
+if (!is_dir($dir)) mkdir($dir, 0755, true);
+
+if (file_put_contents($dir . $filename, $content)) {
+    echo json_encode(['status' => 'success', 'message' => 'Feedback saved.', 'file' => $filename]);
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'Failed to write to file.']);
+    echo json_encode(['status' => 'error', 'message' => 'Could not write file. Check folder permissions.']);
 }
 ?>

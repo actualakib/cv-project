@@ -1,34 +1,72 @@
- body {
-     font-family: 'Inter', sans-serif;
-     background-color: #f8f8fc;
- }
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f8fc;
+}
 
- .hidden {
-     display: none !important;
- }
 
- #cv-preview-container {
-     background: white;
-     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
- }
+.hidden {
+    display: none !important;
+}
 
- .premium-blur {
-     filter: blur(5px);
-     pointer-events: none;
- }
 
- .input-error {
-     border-color: #ef4444 !important;
-     background-color: #fef2f2 !important;
- }
+#cv-preview-container {
+    background: white;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
 
- .error-msg {
-     color: #ef4444;
-     font-size: 0.75rem;
-     margin-top: 0.25rem;
-     display: none;
- }
 
- .input-error+.error-msg {
-     display: block;
- }
+.premium-blur {
+    filter: blur(5px);
+    pointer-events: none;
+
+}
+
+
+.input-error {
+    border-color: #ef4444 !important;
+    background-color: #fef2f2 !important;
+}
+
+
+.error-msg {
+    color: #ef4444;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    display: none;
+
+}
+
+
+.input-error+.error-msg {
+    display: block;
+}
+
+
+.share-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 0;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.2s ease;
+}
+
+.share-btn:hover {
+    opacity: 0.82;
+}
+
+
+.share-whatsapp {
+    background-color: #25D366;
+}
+
+
+.share-twitter {
+    background-color: #000000;
+}
